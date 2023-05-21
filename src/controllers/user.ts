@@ -72,8 +72,6 @@ const getUserByIdIntern=async(req:Request,res:Response)=>{
 }
 
 
-
-
 //Algorithm 1 
 const upadteUserIntern = async (req: Request,res: Response)=>{
     console.log('id'+req.body.id)
@@ -81,7 +79,7 @@ const upadteUserIntern = async (req: Request,res: Response)=>{
     console.log("UpdateUser")
     console.log(req.body.userType)
     console.log(req.body)
-
+console.log(req.body.avatarUrl + ' Pic');
     if(req.body.userType==='intern'){
         console.log("UpdateUser Intern")
         const name= req.body.name;
