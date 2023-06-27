@@ -403,13 +403,40 @@ function calculateStability(matching, hospitals) {
 
     return stability;
 }
-function createRandomInput(interns, hospitals) {
+// function createRandomInput(interns, hospitals) {
+  
+//     // Initialize a random matching
+//     const matching = {};
+//     const freeInterns = [];
+//     for (const intern of interns) {
+//     console.log('intern ' +intern);
+//       freeInterns.push(intern.name);
+//     }
+//     for (const hospital of hospitals) {
+//       matching[hospital.name] = [];
+//     }
+//     while (freeInterns.length > 0) {
+//       const internName = freeInterns.pop();
+//       const intern = interns.find(i => i.name === internName);
+//       for (const hospitalName of intern.preferenceArray) {
+//         const hospital = hospitals.find(h => h.name === hospitalName);
+//         if (matching[hospitalName].length < hospital.hospitalQuantity) {
+//           matching[hospitalName].push(internName);
+//           break;
+//         }
+//       }
+//     }
+  
+//     console.log(`First Matching ` ,matching);
+//     return { interns: interns, hospitals: hospitals, matching: matching };
+//   }
+  function createRandomInput(interns, hospitals) {
   
     // Initialize a random matching
     const matching = {};
     const freeInterns = [];
     for (const intern of interns) {
-    console.log('intern ' +intern);
+      console.log('intern ' +intern);
       freeInterns.push(intern.name);
     }
     for (const hospital of hospitals) {
@@ -418,15 +445,35 @@ function createRandomInput(interns, hospitals) {
     while (freeInterns.length > 0) {
       const internName = freeInterns.pop();
       const intern = interns.find(i => i.name === internName);
+  
+      // Make sure intern has a preferenceArray and it is an array
+      if (!intern.preferenceArray || !Array.isArray(intern.preferenceArray)) {
+        console.error(`Preference array not found or is not an array for intern ${internName}`);
+        continue;
+      }
+  
       for (const hospitalName of intern.preferenceArray) {
         const hospital = hospitals.find(h => h.name === hospitalName);
+  
+        // Make sure hospital is found in the hospitals array
+        if (!hospital) {
+          console.error(`Hospital ${hospitalName} not found`);
+          continue;
+        }
+  
+        // Make sure matching has an entry for the hospital
+        if (!Array.isArray(matching[hospitalName])) {
+          console.error(`No matching entry found for ${hospitalName}`);
+          continue;
+        }
+  
         if (matching[hospitalName].length < hospital.hospitalQuantity) {
           matching[hospitalName].push(internName);
           break;
         }
       }
     }
-  
+    
     console.log(`First Matching ` ,matching);
     return { interns: interns, hospitals: hospitals, matching: matching };
   }
